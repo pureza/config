@@ -24,7 +24,7 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (setq inhibit-startup-message t)
-(tool-bar-mode nil)
+(tool-bar-mode -1)
 (bar-cursor-mode t)
 (column-number-mode t)
 (setq display-time-24hr-format t)
