@@ -63,12 +63,17 @@
 
 
 ;; Ruby!
-(require 'inf-ruby)
-
+(add-hook 'ruby-mode-hook
+          (lambda()
+	    (require 'inf-ruby)
+	    (require 'ruby-electric)
+	    (setq ruby-indent-level 4)))
 
 ;; Python
-(require 'pymacs)
-(pymacs-load "ropemacs" "rope-")
+(add-hook 'python-mode-hook
+	  (lambda ()
+	    (require 'pymacs)
+	    (pymacs-load "ropemacs" "rope-")))
 
 
 ;; yasnippet
