@@ -83,7 +83,7 @@ export PS1='\n\[\e[${PROMPT_COLOR}\][\u @ \w] `date +%H:%M:%S` ${PROMPT_CHAR} \[
 alias cp="cp -v"
 alias rm="rm -v"
 alias mv="mv -v"
-alias grep='grep --color=tty'
+alias grep='grep --color=tty -s -I'
 alias findi="find . -iname"
 
 # Calculate the sum of the size of the files matching a given pattern 
