@@ -92,6 +92,8 @@ sumsz ()
     du -b $* | awk '{ sum += $1 }; END { print sum/1024 " KB" }' 
 }
 
+export PATH=$PATH:/opt/sparc-elf-3.4.4/bin/:/opt/sparc-linux-3.4.4/bin/
+
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
