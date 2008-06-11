@@ -1,3 +1,29 @@
+;; QERL stuff
+(defun qerl-test ()
+  (interactive)
+  (setq compilation-finish-functions
+	'((lambda (buffer string)
+	    (setq compilation-finish-functions nil)
+	    (when (string-match "finished" string)
+	      (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/hello.prom -nographic -d in_asm")))))
+  (compile "cd ~/qerl/qemu && make"))
+(global-set-key [f6] 'qerl-test)
+(setq compile-command "cd ~/qerl/qemu && make")
+
+
+;; Indent the entire buffer
+(defun indent-buffer ()
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+
+;; Create TAGS for a given directory tree
+(defun make-tags (dir)
+  (interactive "D")
+  (shell-command (format "cd %s && rm -f TAGS && find -iname '*.[ch]' | xargs etags -a" dir))
+  (message "TAGS created"))
+
+
 ;; Fullscreen mode
 (defun fullscreen ()
   (interactive)
@@ -42,10 +68,12 @@
 
 ;; Keys
 (global-set-key [f11] 'fullscreen)
+(global-set-key [f5] 'compile)
 (global-set-key (kbd "C-x <down>") 'windmove-down)
 (global-set-key (kbd "C-x <up>") 'windmove-up)
 (global-set-key (kbd "C-x <right>") 'windmove-right)
 (global-set-key (kbd "C-x <left>") 'windmove-left)
+(global-set-key "\C-ci" 'indent-buffer)
 (global-set-key "\C-cg" 'grep)
 (global-set-key "\C-cr" 'remember)
 (global-set-key "\C-cw" 'my-swap-buffers)
@@ -75,6 +103,12 @@
 	    (require 'pymacs)
 	    (pymacs-load "ropemacs" "rope-")))
 
+;; C
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (c-set-style "stroustrup")
+	    (c-set-offset 'case-label '+)
+	    (setq indent-tabs-mode nil)))
 
 ;; yasnippet
 (require 'yasnippet-bundle)
@@ -102,5 +136,3 @@
 ;; Keep customizations in a different file
 (setq custom-file "~/.emacs-custom.el")
 (load custom-file 'noerror)
-
-
