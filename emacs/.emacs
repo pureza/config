@@ -5,7 +5,7 @@
 	'((lambda (buffer string)
 	    (setq compilation-finish-functions nil)
 	    (when (string-match "finished" string)
-	      (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/hello.prom -nographic -d in_asm")))))
+	      (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/hello.prom -nographic -d in_asm &")))))
   (compile "cd ~/qerl/qemu && make"))
 (global-set-key [f6] 'qerl-test)
 (setq compile-command "cd ~/qerl/qemu && make")
@@ -62,6 +62,7 @@
 (shell-command-completion-mode t)
 (show-paren-mode t)
 (tabbar-mode t)
+(setq vc-follow-symlinks t)
 (transient-mark-mode t)
 (fullscreen)
 
