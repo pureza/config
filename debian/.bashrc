@@ -92,6 +92,18 @@ sumsz ()
     du -b $* | awk '{ sum += $1 }; END { print sum/1024 " KB" }' 
 }
 
+# Performs a local commit on a git repository and pushes changes 
+# over to github
+github-push ()
+{
+    if test $# -eq 0
+    then
+        echo Usage: "github-push <commit-message>"
+    else
+        git commit -m \"$*\" && git push github
+    fi
+}
+
 export PATH=$PATH:/opt/sparc-elf-3.4.4/bin:/opt/sparc-linux-3.4.4/bin:/home/pureza/qerl/tsim-eval/tsim/linux
 
 # enable programmable completion features (you don't need to enable
