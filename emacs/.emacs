@@ -57,12 +57,13 @@
 (display-time)
 (setq scroll-step 1) ; Scroll one line at a time
 (set-scroll-bar-mode 'right)
-(setq make-backup-files nil) 
+(setq make-backup-files nil)
 (global-hl-line-mode t)
 (shell-command-completion-mode t)
 (show-paren-mode t)
 (tabbar-mode t)
 (setq vc-follow-symlinks t)
+(setq-default show-trailing-whitespace t)
 (transient-mark-mode t)
 (fullscreen)
 
@@ -118,7 +119,7 @@
 
 
 ;; GIT
-(setq load-path (cons (expand-file-name 
+(setq load-path (cons (expand-file-name
 		       "/usr/share/doc/git-core/contrib/emacs") load-path))
 (require 'vc-git)
 (when (featurep 'vc-git) (add-to-list 'vc-handled-backends 'git))
