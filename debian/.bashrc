@@ -100,7 +100,7 @@ github-push ()
     then
         echo Usage: "github-push <commit-message>"
     else
-        git commit -m \"$*\" && git push github
+        git commit -m \"$*\" && echo git push github
     fi
 }
 
