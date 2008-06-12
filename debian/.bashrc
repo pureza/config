@@ -100,8 +100,9 @@ github-push ()
     then
         echo Usage: "github-push <commit-message>"
     else
-        git commit -m "\"$1\""
-	echo " * Pushing changes to github..."
+        echo -e " * Performing a local commit...\n"
+        git commit "$@" #-m "\"$1\""
+        echo -e "\n * Pushing changes to github...\n"
         git push github
     fi
 }
