@@ -98,7 +98,8 @@ github-push ()
 {
     if test $# -eq 0
     then
-        echo Usage: "github-push <commit-message>"
+        echo Usage: "github-push <git-commit options>"
+	echo Example: github-push -a -m \"Commit message\"
     else
         echo -e " * Performing a local commit...\n"
         git commit "$@" #-m "\"$1\""
