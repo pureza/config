@@ -1,14 +1,20 @@
 ;; QERL stuff
-(defun qerl-test ()
-  (interactive)
-  (setq compilation-finish-functions
-	'((lambda (buffer string)
-	    (setq compilation-finish-functions nil)
-	    (when (string-match "finished" string)
-	      (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/hello.prom -nographic -d in_asm &")))))
-  (compile "cd ~/qerl/qemu && make"))
-(global-set-key [f6] 'qerl-test)
-(setq compile-command "cd ~/qerl/qemu && make")
+(define-minor-mode qerl-mode
+  "QERL mode"
+  :init-value nil
+  ;; The indicator for the mode line.
+  :lighter " QERL"
+  :keymap '(([f6] . qerl-test))
+
+  (defun qerl-test ()
+    (interactive)
+    (setq compilation-finish-functions
+	  '((lambda (buffer string)
+	      (setq compilation-finish-functions nil)
+	      (when (string-match "finished" string)
+		(shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/hello.prom -nographic -d in_asm &")))))
+    (compile "cd ~/qerl/qemu && make"))
+  (setq compile-command "cd ~/qerl/qemu && make"))
 
 
 ;; Indent the entire buffer
