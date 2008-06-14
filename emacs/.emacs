@@ -16,6 +16,12 @@
     (compile "cd ~/qerl/qemu && make"))
   (setq compile-command "cd ~/qerl/qemu && make"))
 
+;; Enable QERL mode for files inside ~/qerl/qemu
+(add-hook 'c-mode-common-hook
+	  (lambda ()
+	    (when (string-match "/qerl/qemu" (buffer-file-name))
+	      (qerl-mode))))
+
 
 ;; Indent the entire buffer
 (defun indent-buffer ()
