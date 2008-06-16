@@ -12,7 +12,9 @@
 	  '((lambda (buffer string)
 	      (setq compilation-finish-functions nil)
 	      (when (string-match "finished" string)
-		(shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/hello.prom -nographic -d in_asm &")))))
+		(let ((shell-buffer (get-buffer-create "*qemu-system-sparc*")))
+		  (pop-to-buffer shell-buffer)
+		  (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/hello.prom -nographic -d in_asm &" shell-buffer))))))
     (compile "cd ~/qerl/qemu && make"))
   (setq compile-command "cd ~/qerl/qemu && make"))
 
