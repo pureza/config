@@ -124,7 +124,10 @@
 	  (lambda ()
 	    (c-set-style "stroustrup")
 	    (c-set-offset 'case-label '+)
-	    (setq indent-tabs-mode nil)))
+	    (setq indent-tabs-mode nil)
+	    (load-file "/usr/share/emacs/site-lisp/xcscope.el")
+	    (require 'xcscope)))
+
 
 ;; yasnippet
 (require 'yasnippet-bundle)
