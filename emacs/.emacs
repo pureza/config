@@ -25,6 +25,23 @@
 	      (qerl-mode))))
 
 
+;; Run whatever program I'm writing...
+(defvar run-command "./a.out"
+  "Default command for running applications")
+
+(defun run-app ()
+  "Compile and run the application"
+  (interactive)
+  (let ((run-fn (lambda (buffer string)
+		  (setq compilation-finish-functions nil)
+		  (when (string-match "finished" string)
+		    (let ((command (read-from-minibuffer "Run command: " run-command)))
+		      (setq run-command command)
+		      (shell-command run-command))))))
+    (add-hook 'compilation-finish-functions run-fn)
+    (call-interactively 'compile)))
+
+
 ;; Indent the entire buffer
 (defun indent-buffer ()
   (interactive)
@@ -85,6 +102,7 @@
 ;; Keys
 (global-set-key [f11] 'fullscreen)
 (global-set-key [f5] 'compile)
+(global-set-key [f6] 'run-app)
 (global-set-key (kbd "C-x <down>") 'windmove-down)
 (global-set-key (kbd "C-x <up>") 'windmove-up)
 (global-set-key (kbd "C-x <right>") 'windmove-right)
