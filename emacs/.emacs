@@ -30,14 +30,19 @@
   "Default command for running applications")
 
 (defun run-app ()
-  "Compile and run the application"
+  "Asks the user for a command and executes it"
+  (interactive)
+  (let ((command (read-from-minibuffer "Run command: " run-command)))
+    (setq run-command command)
+    (shell-command run-command)))
+
+(defun run-after-compile ()
+  "Compiles and run the application"
   (interactive)
   (let ((run-fn (lambda (buffer string)
 		  (setq compilation-finish-functions nil)
 		  (when (string-match "finished" string)
-		    (let ((command (read-from-minibuffer "Run command: " run-command)))
-		      (setq run-command command)
-		      (shell-command run-command))))))
+		    (run-app)))))
     (add-hook 'compilation-finish-functions run-fn)
     (call-interactively 'compile)))
 
@@ -102,7 +107,7 @@
 ;; Keys
 (global-set-key [f11] 'fullscreen)
 (global-set-key [f5] 'compile)
-(global-set-key [f6] 'run-app)
+(global-set-key [f6] 'run-after-compile)
 (global-set-key (kbd "C-x <down>") 'windmove-down)
 (global-set-key (kbd "C-x <up>") 'windmove-up)
 (global-set-key (kbd "C-x <right>") 'windmove-right)
@@ -129,13 +134,15 @@
           (lambda()
 	    (require 'inf-ruby)
 	    (require 'ruby-electric)
-	    (setq ruby-indent-level 4)))
+	    (setq ruby-indent-level 4)
+	    (define-key (current-local-map) [f6] 'run-app))) ; F6 doesn't need to compile
 
 ;; Python
 (add-hook 'python-mode-hook
 	  (lambda ()
 	    (require 'pymacs)
-	    (pymacs-load "ropemacs" "rope-")))
+	    (pymacs-load "ropemacs" "rope-")
+	    (define-key (current-local-map) [f6] 'run-app)))
 
 ;; C
 (add-hook 'c-mode-common-hook
