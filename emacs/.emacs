@@ -14,7 +14,7 @@
 	      (when (string-match "finished" string)
 		(let ((shell-buffer (get-buffer-create "*qemu-system-sparc*")))
 		  (pop-to-buffer shell-buffer)
-		  (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/hello.prom -nographic -d in_asm &" shell-buffer))))))
+		  (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/prime.prom.2 -nographic -d in_asm &" shell-buffer))))))
     (compile "cd ~/qerl/qemu && make"))
   (setq compile-command "cd ~/qerl/qemu && make"))
 
@@ -29,22 +29,43 @@
 (defvar run-command "./a.out"
   "Default command for running applications")
 
-(defun run-app ()
-  "Asks the user for a command and executes it"
-  (interactive)
-  (let ((command (read-from-minibuffer "Run command: " run-command)))
+(defun run-app (arg)
+  "Executes the application. If called with a prefix argument, asks the user
+for the running command. Otherwise, reuses the last one"
+  (interactive "P")
+  (let ((command (if arg
+		     (read-from-minibuffer "Run command: " run-command)
+		   run-command)))
     (setq run-command command)
     (shell-command run-command)))
 
-(defun run-after-compile ()
-  "Compiles and run the application"
-  (interactive)
+(defun run-after-compile (arg)
+  "Compiles and run the application. If called with a prefix argument,
+asks the user for the compile and run command. Otherwise, reuses the last
+ones"
+  (interactive "P")
   (let ((run-fn (lambda (buffer string)
 		  (setq compilation-finish-functions nil)
 		  (when (string-match "finished" string)
-		    (run-app)))))
+		    (call-interactively 'run-app)))))
     (add-hook 'compilation-finish-functions run-fn)
-    (call-interactively 'compile)))
+    (if arg
+	(call-interactively 'compile)
+      (compile compile-command))))
+
+
+;; Open corresponding .h file
+(defun open-header ()
+  (interactive)
+  (let* ((file-name (buffer-file-name (current-buffer)))
+	 (extension (file-name-extension file-name))
+	 (header-name (concat (file-name-sans-extension file-name) ".h")))
+    (if (and (member extension '("c" "cpp"))
+	     (file-exists-p header-name))
+	(find-file header-name)
+      (progn
+	(message "Header not found: %s" header-name)
+	(call-interactively 'find-file)))))
 
 
 ;; Indent the entire buffer
@@ -150,6 +171,7 @@
 	    (c-set-style "stroustrup")
 	    (c-set-offset 'case-label '+)
 	    (setq indent-tabs-mode nil)
+	    (define-key (current-local-map) "\C-ch" 'open-header)
 	    (load-file "/usr/share/emacs/site-lisp/xcscope.el")
 	    (require 'xcscope)))
 
@@ -158,16 +180,6 @@
 (require 'yasnippet-bundle)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/snippets")
-
-
-;; GIT
-(setq load-path (cons (expand-file-name
-		       "/usr/share/doc/git-core/contrib/emacs") load-path))
-(require 'vc-git)
-(when (featurep 'vc-git) (add-to-list 'vc-handled-backends 'git))
-(require 'git)
-(autoload 'git-blame-mode "git-blame"
-  "Minor mode for incremental blame for Git." t)
 
 
 ;; Add comment keywords to progmodes
