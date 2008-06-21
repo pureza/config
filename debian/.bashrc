@@ -108,7 +108,7 @@ github-push ()
     fi
 }
 
-export PATH=$PATH:/opt/sparc-elf-3.4.4/bin:/opt/sparc-linux-3.4.4/bin:/home/pureza/qerl/tsim-eval/tsim/linux
+export PATH=$PATH:/opt/sparc-elf-3.4.4/bin:/opt/sparc-linux-3.4.4/bin:/home/pureza/qerl/tsim-eval/tsim/linux:/opt/sparc-uclinux-3.4.4/bin
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
