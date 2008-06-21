@@ -85,6 +85,7 @@ alias rm="rm -v"
 alias mv="mv -v"
 alias grep='grep --color=tty -s -I'
 alias findi="find . -iname"
+alias ssh-moreia="ssh -t student.dei.uc.pt ssh 10.3.0.143"
 
 # Calculate the sum of the size of the files matching a given pattern 
 sumsz ()
