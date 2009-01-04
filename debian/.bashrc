@@ -80,12 +80,19 @@ xmodmap -e "keycode 115 = Escape" &> /dev/null
 export PS1='\n\[\e[${PROMPT_COLOR}\][\u @ \w] `date +%H:%M:%S` ${PROMPT_CHAR} \[\e[m\]'
 
 # alias
+alias ll='ls -l'
+alias du='du -h --max-depth=1'
 alias cp="cp -v"
 alias rm="rm -v"
 alias mv="mv -v"
-alias grep='grep --color=tty -s -I'
+alias grep='grep --color=always --exclude=*TAGS --exclude=.svn -s -I'
+alias less='less -R'
 alias findi="find . -iname"
-alias ssh-moreia="ssh -t student.dei.uc.pt ssh 10.3.0.143"
+alias ssh-moreia="ssh -t pureza@student.dei.uc.pt ssh 10.3.0.143"
+alias fsc="mono /home/pureza/fsharp/bin/fsc.exe"
+alias fsi="mono /home/pureza/fsharp/bin/fsi.exe"
+alias fslex="mono /home/pureza/fsharp/bin/fslex.exe"
+alias fsyacc="mono /home/pureza/fsharp/bin/fsyacc.exe"
 
 # Calculate the sum of the size of the files matching a given pattern 
 sumsz ()
@@ -109,7 +116,7 @@ github-push ()
     fi
 }
 
-export PATH=$PATH:/opt/sparc-elf-3.4.4/bin:/opt/sparc-linux-3.4.4/bin:/home/pureza/qerl/tsim-eval/tsim/linux:/opt/sparc-uclinux-3.4.4/bin
+export PATH=$PATH:/opt/sparc-elf-3.4.4/bin:/opt/sparc-linux-3.4.4/bin:/home/pureza/qerl/tsim-eval/tsim/linux:/opt/sparc-uclinux-3.4.4/bin:/home/pureza/qerl/tsim-leon-mmu-1.1.8/linux/:/opt/rtems-4.8/bin
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile

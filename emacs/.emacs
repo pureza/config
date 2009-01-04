@@ -1,3 +1,11 @@
+(autoload 'run-ruby "inf-ruby"
+  "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby"
+  "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook
+	  '(lambda ()
+	     (inf-ruby-keys)))
+
 ;; QERL stuff
 (define-minor-mode qerl-mode
   "QERL mode"
@@ -14,7 +22,7 @@
 	      (when (string-match "finished" string)
 		(let ((shell-buffer (get-buffer-create "*qemu-system-sparc*")))
 		  (pop-to-buffer shell-buffer)
-		  (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/examples/prime.prom.2 -nographic -d in_asm &" shell-buffer))))))
+		  (shell-command "cd ~/qerl/qemu/sparc-softmmu && ./qemu-system-sparc -kernel ~/qerl/image.flashbz.debug_uart -nographic -d in_asm &" shell-buffer))))))
     (compile "cd ~/qerl/qemu && make"))
   (setq compile-command "cd ~/qerl/qemu && make"))
 
@@ -175,6 +183,17 @@ ones"
 	    (load-file "/usr/share/emacs/site-lisp/xcscope.el")
 	    (require 'xcscope)))
 
+(add-hook 'latex-mode-hook 'turn-on-auto-fill)
+
+;; F#
+(setq auto-mode-alist
+  (cons '("\\.fs[iylp]?$" . caml-mode) auto-mode-alist))
+(autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
+(autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
+(if window-system (require 'caml-font))
+(defvar inferior-caml-program "mono /home/pureza/fsharp/bin/fsi.exe"
+  "*Program name for invoking an inferior Caml from Emacs.")
+(setq save-abbrevs 'silently)
 
 ;; yasnippet
 (require 'yasnippet-bundle)
