@@ -190,7 +190,7 @@ ones"
   (cons '("\\.fs[iylp]?$" . caml-mode) auto-mode-alist))
 (autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
 (autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
-(if window-system (require 'caml-font))
+(require 'caml-font)
 (defvar inferior-caml-program "mono /home/pureza/fsharp/bin/fsi.exe"
   "*Program name for invoking an inferior Caml from Emacs.")
 (setq save-abbrevs 'silently)
