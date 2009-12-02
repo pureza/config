@@ -1,11 +1,3 @@
-(autoload 'run-ruby "inf-ruby"
-  "Run an inferior Ruby process")
-(autoload 'inf-ruby-keys "inf-ruby"
-  "Set local key defs for inf-ruby in ruby-mode")
-(add-hook 'ruby-mode-hook
-	  '(lambda ()
-	     (inf-ruby-keys)))
-
 ;; QERL stuff
 (define-minor-mode qerl-mode
   "QERL mode"
@@ -147,6 +139,11 @@ ones"
 (global-set-key "\C-cw" 'my-swap-buffers)
 
 
+;; GPG
+(require 'epa)
+(epa-file-enable)
+
+
 ; ido
 (require 'ido)
 (ido-mode t)
@@ -179,24 +176,23 @@ ones"
 	    (c-set-style "stroustrup")
 	    (c-set-offset 'case-label '+)
 	    (setq indent-tabs-mode nil)
-	    (define-key (current-local-map) "\C-ch" 'open-header)
-	    (load-file "/usr/share/emacs/site-lisp/xcscope.el")
-	    (require 'xcscope)))
+	    (define-key (current-local-map) "\C-ch" 'open-header)))
 
-(add-hook 'latex-mode-hook 'turn-on-auto-fill)
+(add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
 
-;; F#
-(setq auto-mode-alist
-  (cons '("\\.fs[iylp]?$" . caml-mode) auto-mode-alist))
-(autoload 'caml-mode "caml" "Major mode for editing Caml code." t)
-(autoload 'run-caml "inf-caml" "Run an inferior Caml process." t)
-(require 'caml-font)
-(defvar inferior-caml-program "mono /home/pureza/fsharp/bin/fsi.exe"
-  "*Program name for invoking an inferior Caml from Emacs.")
-(setq save-abbrevs 'silently)
+
+;; Scala
+(add-to-list 'load-path "~/.emacs.d/scala-mode")
+(autoload 'scala-mode "scala-mode")
+(add-to-list 'auto-mode-alist '("\\.scala\\'" . scala-mode))
+
+(add-hook 'scala-mode-hook
+	  (lambda ()
+	    (autoload 'maven-mode "maven-mode" nil t)))
+
 
 ;; yasnippet
-(require 'yasnippet-bundle)
+(require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/snippets")
 
@@ -205,7 +201,7 @@ ones"
 (mapcar (lambda (mode)
 	  (font-lock-add-keywords mode
 				  '(("\\<\\(FIXME\\|HACK\\|XXX\\|TODO\\)" 1 font-lock-warning-face prepend))))
-	'(c-mode python-mode ruby-mode))
+	'(c-mode python-mode ruby-mode scala-mode))
 
 
 ;; Keep customizations in a different file

@@ -1,0 +1,29 @@
+PROMPT_CHAR='$'
+PROMPT_COLOR='1;34m'
+
+# If I am root, set the prompt to bright red
+if [ ${UID} -eq 0 ]; then
+        PROMPT_COLOR='1;31m'
+        PROMPT_CHAR='#'
+fi
+
+export PS1='\n\[\e[${PROMPT_COLOR}\][\u @ \w] `date +%H:%M:%S` ${PROMPT_CHAR} \[\e[m\]'
+
+# alias
+alias ll='ls -l'
+alias du='du -h --max-depth=1'
+alias cp="cp -v"
+alias rm="rm -v"
+alias mv="mv -v"
+alias grep='grep --color=always --exclude=*TAGS --exclude=.svn -s -I'
+alias less='less -R'
+alias findi="find . -iname"
+alias mount-samba="mount /mnt/samba && nautilus /mnt/samba"
+alias sshzai="ssh luis.pureza@intra.feedzai.com"
+
+# Calculate the sum of the size of the files matching a given pattern 
+sumsz ()
+{
+    du -b $* | awk '{ sum += $1 }; END { print sum/1024 " KB" }' 
+}
+

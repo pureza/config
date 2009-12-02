@@ -6,14 +6,22 @@
 [ -z "$PS1" ] && return
 
 # don't put duplicate lines in the history. See bash(1) for more options
-export HISTCONTROL=ignoredups
+# don't overwrite GNU Midnight Commander's setting of `ignorespace'.
+HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+# ... or force ignoredups and ignorespace
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
 # make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(lesspipe)"
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -22,41 +30,51 @@ fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-xterm-color)
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    ;;
-*)
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    ;;
+    xterm-color) color_prompt=yes;;
 esac
 
-# Comment in the above and uncomment this below for a color prompt
-#PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD/$HOME/~}\007"'
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
     ;;
 *)
     ;;
 esac
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-#if [ -f ~/.bash_aliases ]; then
-#    . ~/.bash_aliases
-#fi
-
 # enable color support of ls and also add handy aliases
-if [ "$TERM" != "dumb" ]; then
-    eval "`dircolors -b`"
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='ls --color=auto --format=vertical'
-    #alias vdir='ls --color=auto --format=long'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
 fi
 
 # some more ls aliases
@@ -64,63 +82,22 @@ fi
 #alias la='ls -A'
 #alias l='ls -CF'
 
-PROMPT_CHAR='$'
-PROMPT_COLOR='1;34m'
+# Alias definitions.
+# You may want to put all your additions into a separate file like
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
-# If I am root, set the prompt to bright red
-if [ ${UID} -eq 0 ]; then
-        PROMPT_COLOR='1;31m'
-        PROMPT_CHAR='#'
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
 fi
-
-
-xmodmap -e "keycode 67 = Escape" &> /dev/null
-xmodmap -e "keycode 115 = Escape" &> /dev/null
-
-export PS1='\n\[\e[${PROMPT_COLOR}\][\u @ \w] `date +%H:%M:%S` ${PROMPT_CHAR} \[\e[m\]'
-
-# alias
-alias ll='ls -l'
-alias du='du -h --max-depth=1'
-alias cp="cp -v"
-alias rm="rm -v"
-alias mv="mv -v"
-alias grep='grep --color=always --exclude=*TAGS --exclude=.svn -s -I'
-alias less='less -R'
-alias findi="find . -iname"
-alias ssh-moreia="ssh -t pureza@student.dei.uc.pt ssh 10.3.0.143"
-alias fsc="mono /home/pureza/fsharp/bin/fsc.exe"
-alias fsi="mono /home/pureza/fsharp/bin/fsi.exe"
-alias fslex="mono /home/pureza/fsharp/bin/fslex.exe"
-alias fsyacc="mono /home/pureza/fsharp/bin/fsyacc.exe"
-
-# Calculate the sum of the size of the files matching a given pattern 
-sumsz ()
-{
-    du -b $* | awk '{ sum += $1 }; END { print sum/1024 " KB" }' 
-}
-
-# Performs a local commit on a git repository and pushes changes 
-# over to github
-github-push ()
-{
-    if test $# -eq 0
-    then
-        echo Usage: "github-push <git-commit options>"
-	echo Example: github-push -a -m \"Commit message\"
-    else
-        echo -e " * Performing a local commit...\n"
-        git commit "$@" #-m "\"$1\""
-        echo -e "\n * Pushing changes to github...\n"
-        git push github
-    fi
-}
-
-export PATH=$PATH:/opt/sparc-elf-3.4.4/bin:/opt/sparc-linux-3.4.4/bin:/home/pureza/qerl/tsim-eval/tsim/linux:/opt/sparc-uclinux-3.4.4/bin:/home/pureza/qerl/tsim-leon-mmu-1.1.8/linux/:/opt/rtems-4.8/bin
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ]; then
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
+fi
+
+if [ -f ~/.bashrc-pureza ]; then
+    . ~/.bashrc-pureza
 fi
