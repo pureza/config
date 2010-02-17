@@ -15,7 +15,7 @@ alias du='du -h --max-depth=1'
 alias cp="cp -v"
 alias rm="rm -v"
 alias mv="mv -v"
-alias grep='grep --color=always --exclude=*TAGS --exclude=.svn -s -I'
+alias grep="grep --color=always --exclude=*TAGS --exclude-dir='.svn' -s -I"
 alias less='less -R'
 alias findi="find . -iname"
 alias mount-samba="mount /mnt/samba && nautilus /mnt/samba"
