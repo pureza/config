@@ -20,6 +20,7 @@ alias less='less -R'
 alias findi="find . -iname"
 alias mount-samba="mount /mnt/samba && nautilus /mnt/samba"
 alias sshzai="ssh luis.pureza@intra.feedzai.com"
+alias svn=colorsvn
 
 # Calculate the sum of the size of the files matching a given pattern 
 sumsz ()
