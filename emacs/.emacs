@@ -118,11 +118,19 @@ ones"
 (global-hl-line-mode t)
 (shell-command-completion-mode t)
 (show-paren-mode t)
-(tabbar-mode t)
 (setq vc-follow-symlinks t)
 (setq-default show-trailing-whitespace t)
 (transient-mark-mode t)
+;(tabbar-mode t)
+(scroll-bar-mode -1)
+(menu-bar-mode -1)
 (fullscreen)
+
+(fringe-mode '(0 . right-only))
+(define-fringe-bitmap 'bottom-right-angle [0] nil)
+(define-fringe-bitmap 'right-bracket [0] nil)
+(define-fringe-bitmap 'top-left-angle [0] nil)
+(define-fringe-bitmap 'top-right-angle [0] nil)
 
 
 ;; Keys
@@ -136,7 +144,12 @@ ones"
 (global-set-key "\C-ci" 'indent-buffer)
 (global-set-key "\C-cg" 'grep)
 (global-set-key "\C-cr" 'remember)
-(global-set-key "\C-cw" 'my-swap-buffers)
+(global-set-key "\C-cw" 'delete-trailing-whitespace)
+
+;; color-theme
+(require 'color-theme)
+(load-file "/usr/share/emacs/site-lisp/emacs-goodies-el/color-theme-chocolate-rain.el")
+(color-theme-chocolate-rain)
 
 
 ;; GPG
@@ -161,7 +174,7 @@ ones"
 	    (require 'inf-ruby)
 	    (require 'ruby-electric)
 	    (setq ruby-indent-level 4)
-	    (define-key (current-local-map) [f6] 'run-app))) ; F6 doesn't need to compile
+	    (define-key (current-local-map) [f6] 'run-app)))  ; F6 doesn't need to compile
 
 ;; Python
 (add-hook 'python-mode-hook
@@ -178,7 +191,15 @@ ones"
 	    (setq indent-tabs-mode nil)
 	    (define-key (current-local-map) "\C-ch" 'open-header)))
 
+;; Latex
 (add-hook 'LaTeX-mode-hook 'TeX-PDF-mode)
+
+
+;; Javascript
+(add-hook 'expresso-mode-common-hook
+	  (lambda ()
+	    (setq indent-tabs-mode nil)))
+
 
 
 ;; Scala
@@ -190,20 +211,28 @@ ones"
 	  (lambda ()
 	    (autoload 'maven-mode "maven-mode" nil t)))
 
+;; Javascript
+(autoload #'espresso-mode "espresso" "Start espresso-mode" t)
+(add-to-list 'auto-mode-alist '("\\.js$" . espresso-mode))
+(add-to-list 'auto-mode-alist '("\\.json$" . espresso-mode))
+
 
 ;; yasnippet
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/snippets")
 
+(set-face-foreground 'font-lock-preprocessor-face "#ff9933")
 
 ;; Add comment keywords to progmodes
 (mapcar (lambda (mode)
 	  (font-lock-add-keywords mode
-				  '(("\\<\\(FIXME\\|HACK\\|XXX\\|TODO\\)" 1 font-lock-warning-face prepend))))
-	'(c-mode python-mode ruby-mode scala-mode))
+				  '(("\\<\\(FIXME\\|HACK\\|XXX\\|TODO\\)" 1 font-lock-warning-face prepend)
+				    ("\\<\\(-?[0-9]+\.[0-9]+\\)" 1 font-lock-preprocessor-face)
+				    ("\\<\\(-?[0-9]+\\)" 1 font-lock-preprocessor-face))))
+	'(c-mode python-mode ruby-mode scala-mode emacs-lisp-mode espresso-mode))
 
 
 ;; Keep customizations in a different file
 (setq custom-file "~/.emacs-custom.el")
-(load custom-file 'noerror)
+;(load custom-file 'noerror)
