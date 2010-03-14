@@ -126,13 +126,6 @@ ones"
 (menu-bar-mode -1)
 (fullscreen)
 
-(fringe-mode '(0 . right-only))
-(define-fringe-bitmap 'bottom-right-angle [0] nil)
-(define-fringe-bitmap 'right-bracket [0] nil)
-(define-fringe-bitmap 'top-left-angle [0] nil)
-(define-fringe-bitmap 'top-right-angle [0] nil)
-
-
 ;; Keys
 (global-set-key [f11] 'fullscreen)
 (global-set-key [f5] 'compile)
@@ -146,9 +139,10 @@ ones"
 (global-set-key "\C-cr" 'remember)
 (global-set-key "\C-cw" 'delete-trailing-whitespace)
 
+
 ;; color-theme
 (require 'color-theme)
-(load-file "/usr/share/emacs/site-lisp/emacs-goodies-el/color-theme-chocolate-rain.el")
+(load-library "color-theme-chocolate-rain.el")
 (color-theme-chocolate-rain)
 
 
