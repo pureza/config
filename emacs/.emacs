@@ -138,6 +138,7 @@ ones"
 (global-set-key "\C-cg" 'grep)
 (global-set-key "\C-cr" 'remember)
 (global-set-key "\C-cw" 'delete-trailing-whitespace)
+(global-set-key "\C-t" 'dabbrev-expand)
 
 
 ;; color-theme
@@ -215,9 +216,9 @@ ones"
 
       (save-excursion
         ;; I like to indent case and labels to half of the tab width
-        (back-to-indentation)
-        (if (looking-at "case\\s-")
-            (setq indentation (+ indentation (/ espresso-indent-level 2))))
+         (back-to-indentation)
+        ;(if (looking-at "case\\s-")
+        ;    (setq indentation (+ indentation (/ espresso-indent-level 2))))
 
         ;; consecutive declarations in a var statement are nice if
         ;; properly aligned, i.e:
@@ -232,6 +233,7 @@ ones"
 
       (indent-line-to indentation)
       (when (> offset 0) (forward-char offset)))))
+
 
 (defun my-js2-mode-hook ()
   (require 'espresso)
@@ -252,7 +254,7 @@ ones"
   (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
   (define-key js2-mode-map [(control meta q)] 'my-indent-sexp)
   (if (featurep 'js2-highlight-vars)
-    (js2-highlight-vars-mode)))
+      (js2-highlight-vars-mode)))
 
 (add-hook 'js2-mode-hook 'my-js2-mode-hook)
 
