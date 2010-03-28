@@ -117,6 +117,7 @@ ones"
 (setq make-backup-files nil)
 (global-hl-line-mode t)
 (shell-command-completion-mode t)
+(setq show-paren-style 'expression)
 (show-paren-mode t)
 (setq vc-follow-symlinks t)
 (setq-default show-trailing-whitespace t)
@@ -141,6 +142,10 @@ ones"
 (global-set-key "\C-t" 'dabbrev-expand)
 
 
+;; tabkey2
+(require 'tabkey2)
+(tabkey2-mode)
+
 ;; color-theme
 (require 'color-theme)
 (load-library "color-theme-chocolate-rain.el")
@@ -155,7 +160,11 @@ ones"
 ; ido
 (require 'ido)
 (ido-mode t)
-
+(setq
+ ido-case-fold  t
+ ido-enable-last-directory-history t
+ ido-ignore-buffers
+ '("\\` " ".*Completion" "^\*Ido" "^\*compilation" "^\*"))
 
 ;; occur-mode
 (global-set-key "\C-co" 'occur)
