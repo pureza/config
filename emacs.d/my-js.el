@@ -17,9 +17,6 @@
       (save-excursion
         ;; I like to indent case and labels to half of the tab width
          (back-to-indentation)
-        ;(if (looking-at "case\\s-")
-        ;    (setq indentation (+ indentation (/ espresso-indent-level 2))))
-
         ;; consecutive declarations in a var statement are nice if
         ;; properly aligned, i.e:
         ;;
@@ -34,26 +31,28 @@
       (indent-line-to indentation)
       (when (> offset 0) (forward-char offset)))))
 
+(defun insert-right-brace (x)
+  "insert right brace"
+  (interactive "p")
+  (insert "{")
+  (newline-and-indent)
+  (save-excursion
+    (newline-and-indent)
+    (insert "}")
+    (indent-according-to-mode)))
+
+
 (defun my-js2-mode-hook ()
   (require 'js2-highlight-vars)
   (require 'espresso)
   (font-lock-watchwords)
   (font-lock-numbers)
-  (c-toggle-auto-state 0)
+  (c-toggle-auto-state 1)
   (c-toggle-hungry-state 1)
   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
-  (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
-  (define-key js2-mode-map [(meta control \;)]
-    '(lambda()
-       (interactive)
-       (insert "/* -----[ ")
-       (save-excursion
-         (insert " ]----- */"))
-       ))
   (define-key js2-mode-map [(return)] 'newline-and-indent)
   (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
-  (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
-  (define-key js2-mode-map [(control meta q)] 'my-indent-sexp)
+  (define-key js2-mode-map (kbd "{") 'insert-right-brace)
   (if (featurep 'js2-highlight-vars)
       (js2-highlight-vars-mode)))
 
