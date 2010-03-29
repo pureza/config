@@ -13,6 +13,9 @@ export PS1='\n\[\e[${PROMPT_COLOR}\][\u @ \w] `date +%H:%M:%S` ${PROMPT_CHAR} \[
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
 
+# Discard hidden files when auto-completing
+bind 'set match-hidden-files off' 
+
 # Share history between all terminals
 shopt -s histappend
 export PROMPT_COMMAND='history -a'
