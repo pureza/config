@@ -20,7 +20,9 @@ export PROMPT_COMMAND='history -a'
 shopt -s cdspell
 
 # alias
+alias ls="ls -h --color=auto"
 alias ll='ls -l'
+alias lla="ls -la"
 alias du='du -h --max-depth=1'
 alias cp="cp -v"
 alias rm="rm -v"
@@ -28,16 +30,59 @@ alias mv="mv -v"
 alias grep="grep --color=always --exclude=*TAGS --exclude-dir='.svn' -s -I"
 alias less='less -R'
 alias findi="find . -iname"
+
 alias mount-samba="mount /mnt/samba && nautilus /mnt/samba"
-alias sshzai="ssh luis.pureza@intra.feedzai.com"
+alias zaimount="sshfs luis.pureza@intra.feedzai.com:. /mnt/feedzai/"
+alias zai="ssh -t luis.pureza@intra.feedzai.com ssh -i .ssh/id_rsa_intra pureza.zai"
 alias svn=colorsvn
-alias aptupd="sudo aptitude update"
-alias aptupg="sudo aptitude safe-upgrade"
-alias apti="sudo aptitude install"
+alias upd="sudo aptitude update"
+alias upg="sudo aptitude safe-upgrade"
+alias inst="sudo aptitude install"
+alias reload="source ~/.bashrc-pureza"
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
 
 # Calculate the sum of the size of the files matching a given pattern 
 sumsz ()
 {
     du -b $* | awk '{ sum += $1 }; END { print sum/1024 " KB" }' 
 }
+
+
+zaitransf () {
+    ssh luis.pureza@intra.feedzai.com tar cf - -C $1 . | tar xvf -
+}
+
+
+compress ()
+{
+    tar czf $1.tar.gz $1
+}
+
+###   Handy Extract Program
+
+extract () {
+    if [ -f $1 ] ; then
+        case $1 in
+            *.tar.bz2)   tar xvjf $1        ;;
+            *.tar.gz)    tar xvzf $1     ;;
+            *.bz2)       bunzip2 $1       ;;
+            *.rar)       unrar x $1     ;;
+            *.gz)        gunzip $1     ;;
+            *.tar)       tar xvf $1        ;;
+            *.tbz2)      tar xvjf $1      ;;
+            *.tgz)       tar xvzf $1       ;;
+            *.zip)       unzip $1     ;;
+            *.Z)         uncompress $1  ;;
+            *.7z)        7z x $1    ;;
+            *)           echo "'$1' cannot be extracted via >extract<" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
 
