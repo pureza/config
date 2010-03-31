@@ -41,6 +41,7 @@ alias svn=colorsvn
 alias upd="sudo aptitude update"
 alias upg="sudo aptitude safe-upgrade"
 alias inst="sudo aptitude install"
+alias open="gnome-open"
 alias reload="source ~/.bashrc-pureza"
 
 alias ..="cd .."
@@ -88,4 +89,12 @@ extract () {
     fi
 }
 
+# Move up until the cwd contains a pom.xml
+pom () {
+  cwd=`pwd`
 
+  if [ $cwd != $HOME -a $cwd != "/" -a ! -e "pom.xml" ]; then
+    cd ..
+    pom
+  fi
+}
