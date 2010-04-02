@@ -88,6 +88,8 @@ diff-cmd = colordiff
 
 ### Section for configuring miscelleneous Subversion options.
 [miscellany]
+global-ignores = #*# *~ .#* .*.swp .nfs* *.iml .classpath .project target .settings
+
 ### Set global-ignores to a set of whitespace-delimited globs
 ### which Subversion will ignore in its 'status' output, and
 ### while importing or adding files and directories.
