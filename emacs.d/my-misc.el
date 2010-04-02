@@ -43,6 +43,7 @@
 (require 'epa nil)
 (epa-file-enable)
 
+
 ;; diff
 ;; Default to unified diffs
 (setq diff-switches "-u")
@@ -50,6 +51,19 @@
   '(progn
      (set-face-foreground 'diff-added "green4")
      (set-face-foreground 'diff-removed "red3")))
+
+
+;; autopair
+(require 'autopair)
+(autopair-global-mode)
+
+
+;; yasnippet
+(add-to-list 'load-path
+             "~/.emacs.d/elisp/yasnippet-0.6.1c")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/elisp/yasnippet-0.6.1c/snippets")
 
 
 (set-face-foreground 'font-lock-preprocessor-face "#ff9933")

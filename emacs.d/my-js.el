@@ -31,16 +31,6 @@
       (indent-line-to indentation)
       (when (> offset 0) (forward-char offset)))))
 
-(defun insert-right-brace (x)
-  "insert right brace"
-  (interactive "p")
-  (insert "{")
-  (newline-and-indent)
-  (save-excursion
-    (newline-and-indent)
-    (insert "}")
-    (indent-according-to-mode)))
-
 
 (defun my-js2-mode-hook ()
   (require 'js2-highlight-vars)
@@ -52,7 +42,6 @@
   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
   (define-key js2-mode-map [(return)] 'newline-and-indent)
   (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
-  (define-key js2-mode-map (kbd "{") 'insert-right-brace)
   (if (featurep 'js2-highlight-vars)
       (js2-highlight-vars-mode)))
 
