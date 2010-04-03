@@ -1,4 +1,3 @@
-(fullscreen)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
@@ -85,7 +84,19 @@
 (setq scroll-step 1)
 (require 'smooth-scrolling)
 
+
+;; saveplace
+(setq save-place-file "~/.emacs.d/saveplace")
+(setq-default save-place t)
+(require 'saveplace)
+
+
+;; cua-mode
+(cua-mode)
+
 (set-face-foreground 'font-lock-preprocessor-face "#ff9933")
+
+(run-with-idle-timer 0.01 nil 'fullscreen)
 
 
 (setq custom-file "~/.emacs.d/emacs-custom.el")
