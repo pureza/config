@@ -71,6 +71,13 @@
 (set-face-background 'flymake-warnline "dark slate yellow")
 
 
+;; Company mode
+(add-to-list 'load-path "~/.emacs.d/elisp/company-mode")
+(autoload 'company-mode "company" nil t)
+(add-hook 'company-mode-hook (lambda ()
+                               (define-key company-mode-map "\t" 'indent-and-complete)))
+
+
 ;; Hitting delete will delete region and selecting a region and then
 ;; press a character will replace region with that character.
 (pending-delete-mode 1)

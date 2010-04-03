@@ -5,6 +5,7 @@
 (global-set-key (kbd "M-g") 'goto-line)
 (global-set-key (kbd "C-7") 'comment-or-uncomment-region)
 (global-set-key (kbd "M-n") 'open-line-below)
+(global-set-key (kbd "<f7>") 'toggle-menu-bar-mode-from-frame)
 
 ;; Jump to a definition in the current file. (This is awesome.)
 (global-set-key (kbd "C-x C-i") 'ido-imenu)
@@ -14,8 +15,8 @@
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
 ;; tabkey2
-(require 'tabkey2)
-(tabkey2-mode)
+;;(require 'tabkey2)
+;;(tabkey2-mode)
 
 ;; Use regex searches by default.
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
