@@ -15,8 +15,8 @@
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
 ;; tabkey2
-;;(require 'tabkey2)
-;;(tabkey2-mode)
+(require 'tabkey2)
+(tabkey2-mode)
 
 ;; Use regex searches by default.
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
