@@ -18,6 +18,7 @@
 (require 'tabkey2)
 (tabkey2-mode)
 
+
 ;; Use regex searches by default.
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
 
