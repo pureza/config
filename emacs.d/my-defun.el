@@ -106,5 +106,12 @@ ones"
    '(("\\<\\(-?[0-9]+\.[0-9]+\\)" 1 font-lock-preprocessor-face)
      ("\\<\\(-?[0-9]+\\)" 1 font-lock-preprocessor-face))))
 
+(defun open-line-below ()
+  "Open a line below the line the point is at.
+Then move to that line and indent accordning to mode"
+  (interactive)
+  (move-end-of-line 1)
+  (newline)
+  (indent-according-to-mode))
 
 (provide 'my-defun)
