@@ -42,6 +42,8 @@
   (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
   (define-key js2-mode-map [(return)] 'newline-and-indent)
   (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
+  (company-mode)
+  (set (make-local-variable 'company-backends) '(company-dabbrev-code))
   (if (featurep 'js2-highlight-vars)
       (js2-highlight-vars-mode)))
 
