@@ -56,7 +56,7 @@ sumsz ()
 }
 
 
-zaitransf () {
+zaicp () {
     ssh luis.pureza@intra.feedzai.com tar cf - -C $1 . | tar xvf -
 }
 
@@ -98,3 +98,18 @@ pom () {
     pom
   fi
 }
+
+# git
+
+pull () {
+    branch=$(git branch --no-color | cut -d" " -f2)
+    echo "$ git pull origin $branch"
+    git pull origin $branch
+}
+
+push () {
+    branch=$(git branch --no-color | cut -d" " -f2)
+    echo "$ git push origin $branch"
+    git push origin $branch
+}
+
