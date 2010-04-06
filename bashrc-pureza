@@ -34,7 +34,7 @@ alias grep="grep --color=always --exclude=*TAGS --exclude-dir='.svn' -s -I"
 alias less='less -R'
 alias findi="find . -iname"
 
-alias mount-samba="mount /mnt/samba && nautilus /mnt/samba"
+alias mount-samba="sudo mount /mnt/samba && nautilus /mnt/samba"
 alias zaimount="sshfs luis.pureza@intra.feedzai.com:. /mnt/feedzai/"
 alias zai="ssh -t luis.pureza@intra.feedzai.com ssh -i .ssh/id_rsa_intra pureza.zai"
 alias svn=colorsvn

@@ -2,6 +2,10 @@
 (global-set-key "\C-cg" 'grep)
 (global-set-key "\C-cw" 'delete-trailing-whitespace)
 (global-set-key "\C-cf" 'cleanup-buffer)
+(global-set-key (kbd "M-g") 'goto-line)
+(global-set-key (kbd "C-7") 'comment-or-uncomment-region)
+(global-set-key (kbd "M-n") 'open-line-below)
+(global-set-key (kbd "<f7>") 'toggle-menu-bar-mode-from-frame)
 
 ;; Jump to a definition in the current file. (This is awesome.)
 (global-set-key (kbd "C-x C-i") 'ido-imenu)
@@ -13,6 +17,7 @@
 ;; tabkey2
 (require 'tabkey2)
 (tabkey2-mode)
+
 
 ;; Use regex searches by default.
 (global-set-key (kbd "C-s") 'isearch-forward-regexp)
@@ -30,5 +35,11 @@
       (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
 
 (windmove-default-keybindings 'meta)
+
+
+;; Fast go to .emacs.
+(global-set-key (kbd "<f12>") (lambda ()
+                                (interactive)
+                                (find-file "~/.emacs.d/my-misc.el")))
 
 (provide 'my-keys)

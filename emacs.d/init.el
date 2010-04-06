@@ -8,4 +8,7 @@
 (require 'my-js)
 (require 'my-c)
 (require 'my-scala)
+(require 'my-ruby)
+(require 'my-xml)
 (require 'my-text)
+(require 'my-elisp)

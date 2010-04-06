@@ -106,5 +106,32 @@ ones"
    '(("\\<\\(-?[0-9]+\.[0-9]+\\)" 1 font-lock-preprocessor-face)
      ("\\<\\(-?[0-9]+\\)" 1 font-lock-preprocessor-face))))
 
+(defun open-line-below ()
+  "Open a line below the line the point is at.
+Then move to that line and indent accordning to mode"
+  (interactive)
+  (move-end-of-line 1)
+  (newline)
+  (indent-according-to-mode))
+
+;; Indent and complete if applicable
+(defun indent-and-complete ()
+  (interactive)
+  (indent-according-to-mode)
+  (if (looking-at "\\_>")
+      (company-yasnippet-or-completion)))
+
+;; Complete with yasnippet or company
+(defun company-yasnippet-or-completion ()
+  (interactive)
+  (if (yas/expansion-at-point)
+      (progn (company-abort)
+             (yas/expand))
+    (company-complete-common)))
+
+(defun yas/expansion-at-point ()
+  "Tested with v0.6.1. Extracted from `yas/expand-1'"
+  (first (yas/current-key)))
+
 
 (provide 'my-defun)
