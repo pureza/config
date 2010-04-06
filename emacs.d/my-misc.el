@@ -71,7 +71,7 @@
 
 
 ;; Company mode
-(add-to-list 'load-path "~/.emacs.d/elisp/company-mode")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/company-mode"))
 (autoload 'company-mode "company" nil t)
 
 
@@ -97,7 +97,6 @@
 (set-face-foreground 'font-lock-preprocessor-face "#ff9933")
 
 (run-with-idle-timer 0.01 nil 'fullscreen)
-
 
 (setq custom-file "~/.emacs.d/emacs-custom.el")
 
