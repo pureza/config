@@ -73,6 +73,7 @@
 ;; Company mode
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp/company-mode"))
 (autoload 'company-mode "company" nil t)
+(setq company-idle-delay nil) ; Automatic completion is a nuisance.
 
 
 ;; Hitting delete will delete region and selecting a region and then

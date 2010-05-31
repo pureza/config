@@ -2,15 +2,26 @@
 xinput set-int-prop 12 121 8 0
 
 PROMPT_CHAR='$'
-PROMPT_COLOR='1;34m'
+PROMPT_COLOR="\e[1;34m"
+
+LIGHT_GREEN='\e[0;32m'
+YELLOW='\e[0;33m'
 
 # If I am root, set the prompt to bright red
 if [ ${UID} -eq 0 ]; then
-        PROMPT_COLOR='1;31m'
+        PROMPT_COLOR='\e[1;31m'
         PROMPT_CHAR='#'
 fi
 
-export PS1='\n\[\e[${PROMPT_COLOR}\][\u @ \w] `date +%H:%M:%S` ${PROMPT_CHAR} \[\e[m\]'
+# Find current git branch and add it to the prompt
+function gitbranch {
+    local branch=$(git branch --no-color 2> /dev/null  | grep "^*" | cut -d" " -f2)
+    if [ -n "$branch" ]; then
+        echo -e "${YELLOW}(${branch})${PROMPT_COLOR} "
+    fi
+}
+
+export PS1="\n${PROMPT_COLOR}[\u@\h \w] `date +%H:%M:%S` "'$(gitbranch)${PROMPT_CHAR} \e[m'
 
 # Up and down keys should auto-complete
 bind '"\e[A":history-search-backward'
@@ -22,8 +33,13 @@ bind 'set match-hidden-files off'
 # Share history between all terminals
 shopt -s histappend
 export PROMPT_COMMAND='history -a'
+export HISTFILESIZE=10000
 
 shopt -s cdspell
+
+export JDK_HOME="/usr/lib/jvm/java-6-sun/"
+
+export EDITOR=vim
 
 # alias
 alias ls="ls -h --color=auto"
@@ -40,7 +56,9 @@ alias flac2mp3="pacpl --to mp3 --bitrate 320 . -v"
 alias mount-samba="sudo mount /mnt/samba && nautilus /mnt/samba"
 alias zaimount="sshfs luis.pureza@intra.feedzai.com:. /mnt/feedzai/"
 alias zai="ssh -t luis.pureza@intra.feedzai.com ssh -i .ssh/id_rsa_intra pureza.zai"
+alias webzai="ssh pureza@web.zai"
 alias svn=colorsvn
+alias diff=colordiff
 alias upd="sudo aptitude update"
 alias upg="sudo aptitude safe-upgrade"
 alias inst="sudo aptitude install"
