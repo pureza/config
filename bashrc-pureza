@@ -1,3 +1,6 @@
+# disable the touchpad
+xinput set-int-prop 12 121 8 0
+
 PROMPT_CHAR='$'
 PROMPT_COLOR='1;34m'
 
@@ -33,7 +36,7 @@ alias mv="mv -v"
 alias grep="grep --color=always --exclude=*TAGS --exclude-dir='.svn' -s -I"
 alias less='less -R'
 alias findi="find . -iname"
-
+alias flac2mp3="pacpl --to mp3 --bitrate 320 . -v"
 alias mount-samba="sudo mount /mnt/samba && nautilus /mnt/samba"
 alias zaimount="sshfs luis.pureza@intra.feedzai.com:. /mnt/feedzai/"
 alias zai="ssh -t luis.pureza@intra.feedzai.com ssh -i .ssh/id_rsa_intra pureza.zai"
@@ -57,7 +60,7 @@ sumsz ()
 
 
 zaicp () {
-    ssh luis.pureza@intra.feedzai.com tar cf - -C $1 . | tar xvf -
+    ssh luis.pureza@intra.feedzai.com tar cf - $1 | tar xvf -
 }
 
 
