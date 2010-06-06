@@ -2,10 +2,10 @@
 xinput set-int-prop 12 121 8 0
 
 PROMPT_CHAR='$'
-PROMPT_COLOR="\e[1;34m"
+PROMPT_COLOR='\[\e[1;34m\]'
 
-LIGHT_GREEN='\e[0;32m'
-YELLOW='\e[0;33m'
+LIGHT_GREEN='\[\e[0;32m\]'
+YELLOW='\[\e[0;33m\]'
 
 # If I am root, set the prompt to bright red
 if [ ${UID} -eq 0 ]; then
@@ -21,7 +21,7 @@ function gitbranch {
     fi
 }
 
-export PS1="\n${PROMPT_COLOR}[\u@\h \w] `date +%H:%M:%S` "'$(gitbranch)${PROMPT_CHAR} \e[m'
+export PS1="\n${PROMPT_COLOR}""[\u@\h \w] `date +%H:%M:%S` $(gitbranch)${PROMPT_CHAR} \[\e[m\]"
 
 # Up and down keys should auto-complete
 bind '"\e[A":history-search-backward'
@@ -118,19 +118,5 @@ pom () {
     cd ..
     pom
   fi
-}
-
-# git
-
-pull () {
-    branch=$(git branch --no-color | cut -d" " -f2)
-    echo "$ git pull origin $branch"
-    git pull origin $branch
-}
-
-push () {
-    branch=$(git branch --no-color | cut -d" " -f2)
-    echo "$ git push origin $branch"
-    git push origin $branch
 }
 
