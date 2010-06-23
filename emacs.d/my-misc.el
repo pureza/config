@@ -53,8 +53,8 @@
 
 
 ;; autopair
-(require 'autopair)
-(autopair-global-mode)
+;;(require 'autopair)
+;;(autopair-global-mode)
 
 
 ;; yasnippet
