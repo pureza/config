@@ -2,26 +2,28 @@
 xinput set-int-prop 12 121 8 0
 
 PROMPT_CHAR='$'
-PROMPT_COLOR='\[\e[1;34m\]'
+PROMPT_COLOR="\[\e[1;34m\]"
+NO_COLOR="\[\e[m\]"
 
 LIGHT_GREEN='\[\e[0;32m\]'
-YELLOW='\[\e[0;33m\]'
+YELLOW="\[\e[0;33m\]"
 
 # If I am root, set the prompt to bright red
 if [ ${UID} -eq 0 ]; then
-        PROMPT_COLOR='\e[1;31m'
-        PROMPT_CHAR='#'
+    PROMPT_COLOR="\[\e[1;31m\]"
+    PROMPT_CHAR='#'
 fi
 
 # Find current git branch and add it to the prompt
 function gitbranch {
     local branch=$(git branch --no-color 2> /dev/null  | grep "^*" | cut -d" " -f2)
     if [ -n "$branch" ]; then
-        echo -e "${YELLOW}(${branch})${PROMPT_COLOR} "
+        echo "(${branch}) "
     fi
 }
 
-export PS1="\n${PROMPT_COLOR}""[\u@\h \w] `date +%H:%M:%S` $(gitbranch)${PROMPT_CHAR} \[\e[m\]"
+export PS1="\n${PROMPT_COLOR}""[\u@\h \w] `date +%H:%M:%S`${YELLOW}"' $(gitbranch)'"${PROMPT_COLOR}${PROMPT_CHAR} ${NO_COLOR}"
+
 
 # Up and down keys should auto-complete
 bind '"\e[A":history-search-backward'
