@@ -1,5 +1,5 @@
 # disable the touchpad
-xinput set-int-prop 12 121 8 0
+xinput set-int-prop 12 121 8 0 &> /dev/null
 
 PROMPT_CHAR='$'
 PROMPT_COLOR="\[\e[1;34m\]"
@@ -22,7 +22,7 @@ function gitbranch {
     fi
 }
 
-export PS1="\n${PROMPT_COLOR}""[\u@\h \w] `date +%H:%M:%S`${YELLOW}"' $(gitbranch)'"${PROMPT_COLOR}${PROMPT_CHAR} ${NO_COLOR}"
+export PS1="\n${PROMPT_COLOR}""[\u@\h \w] "'$(date +%H:%M:%S)'"${YELLOW}"' $(gitbranch)'"${PROMPT_COLOR}${PROMPT_CHAR} ${NO_COLOR}"
 
 
 # Up and down keys should auto-complete
@@ -42,6 +42,8 @@ shopt -s cdspell
 export JDK_HOME="/usr/lib/jvm/java-6-sun/"
 
 export EDITOR=vim
+
+export PATH=$PATH:/opt/scala/bin
 
 # alias
 alias ls="ls -h --color=auto"
