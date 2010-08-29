@@ -43,7 +43,7 @@ export JDK_HOME="/usr/lib/jvm/java-6-sun/"
 
 export EDITOR=vim
 
-export PATH=$PATH:/opt/scala/bin
+export PATH=$PATH:/opt/scala/bin:$HOME/bin
 
 # alias
 alias ls="ls -h --color=auto"
