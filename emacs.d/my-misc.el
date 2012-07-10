@@ -1,6 +1,6 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(menu-bar-mode -1)
+;(menu-bar-mode -1)
 
 (require 'bar-cursor)
 (bar-cursor-mode t)
@@ -40,8 +40,8 @@
 
 ;; color-theme
 (require 'color-theme)
-(load-library "color-theme-chocolate-rain.el")
-(color-theme-chocolate-rain)
+;(load-library "color-theme-chocolate-rain.el")
+;(color-theme-chocolate-rain)
 
 
 ;; diff

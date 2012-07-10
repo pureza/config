@@ -12,3 +12,4 @@
 (require 'my-xml)
 (require 'my-text)
 (require 'my-elisp)
+(require 'my-latex)
