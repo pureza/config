@@ -39,11 +39,13 @@ export HISTFILESIZE=10000
 
 shopt -s cdspell
 
-export JDK_HOME="/usr/lib/jvm/java-6-sun/"
-
 export EDITOR=vim
 
 export PATH=$PATH:/opt/scala/bin:$HOME/bin
+export JDK_HOME="/usr/lib/jvm/jdk1.7.0_21"
+export JAVA_HOME=$JDK_HOME
+export M2_HOME=$HOME/bin/apache-maven-3.0.5
+export CVSROOT=:pserver:lpureza@cvsebi.ebi.ac.uk:/ebi/cvs/kraken
 
 # alias
 alias ls="ls -h --color=auto"
@@ -56,11 +58,6 @@ alias mv="mv -v"
 alias grep="grep --color=always --exclude=*TAGS --exclude-dir='.svn' -s -I"
 alias less='less -R'
 alias findi="find . -iname"
-alias mount-samba="sudo mount /mnt/samba && thunar /mnt/samba"
-alias zaimount="sshfs luis.pureza@intra.feedzai.com:. /mnt/feedzai/"
-alias zai="ssh -t luis.pureza@intra.feedzai.com ssh -i .ssh/id_rsa_intra pureza.zai"
-alias webzai="ssh pureza@web.zai"
-alias svn=colorsvn
 alias diff=colordiff
 alias upd="sudo aptitude update"
 alias upg="sudo aptitude safe-upgrade"
@@ -72,16 +69,13 @@ alias ..="cd .."
 alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias .......="cd ../../../../../.."
 
 # Calculate the sum of the size of the files matching a given pattern 
 sumsz ()
 {
     du -b $* | awk '{ sum += $1 }; END { print sum/1024 " KB" }' 
-}
-
-
-zaicp () {
-    ssh luis.pureza@intra.feedzai.com tar cf - $1 | tar xvf -
 }
 
 
@@ -123,3 +117,12 @@ pom () {
   fi
 }
 
+videotomp3 () {
+  if [ $# -lt 2 ]
+  then
+    echo "Usage: $FUNCNAME <video file> <output directory>"
+    return
+  fi
+
+  avconv -i "$1" -b 128k "$2"/"$1".mp3
+}
